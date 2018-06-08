@@ -1,0 +1,69 @@
+id: Oneliner
+name: BILD Simple Chart Template
+description: A Flourish/BILD Simple Chart Template
+author: Mario Stauber
+sdk_version: 3
+build:
+  src:
+    script: npm run build
+    directory: src
+    files:
+      - rollup.config.js
+  less:
+    script: npm run less
+    directory: less
+settings: 
+  - Allgemeine Optionen Line-Chart # Headings can be used to break up the settings into collapsible sections
+  - property: Label_Beschriftung
+    name: Legenden-Name
+    description: Beschriftung der Legende
+    type: string
+  - property: Haupt_Farbe 
+    name: Haupt-Farbe
+    description: Hauptfarbe in HEX oder RGB
+    type: string
+    choices:
+      - Haupt_Farbe
+      - Green
+      - darkGreen
+      - Blue
+      - darkBlue
+    choices_other: true
+  - property: Punkt_Radius
+    name: Radius Daten-Punkte
+    type: number
+  - Optionen Highlights / Ereignisse
+  - property: position_highlight_kasten
+    name: Position Highlight Kasten
+    description: top, bottom, left, right, center
+    type: string
+    choices:
+      - top 
+      - bottom
+      - left
+      - right
+  - property: farbe_highlight_punkte
+    name: Farbe Highlight Daten-Punkte
+    type: color
+  
+data:
+  - Data
+  - name: datum_schlusskurs
+    description: Datum des Schlusskurses
+    dataset: kurs
+    key: datum_schlusskurs
+    type: column
+    column: 'Data::A'
+    datatype: number
+  - name: schlusskurs
+    dataset: kurs
+    key: schlusskurs
+    type: column
+    column: 'Data::B'
+    datatype: number
+  - name: highlights
+    dataset: kurs
+    key: highlights
+    type: column
+    column: 'Data::C'
+    datatype: string
