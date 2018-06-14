@@ -1,7 +1,7 @@
 {
-  "name": "bild-oneliner",
-  "version": "1.0.0",
-  "description": "A template for use on flourish.studio",
+  "name": "bild-oneliner-testing",
+  "version": "1.0.1",
+  "description": "A template for simple linecharts built with chart.js for use on flourish.studio",
   "main": "template.js",
   "author": "Mario Stauber",
   "license": "ISC",

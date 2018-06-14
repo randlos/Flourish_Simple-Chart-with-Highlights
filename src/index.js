@@ -7,6 +7,7 @@ export var data = {};
 
 export var state = {
   
+
   // Haupt-Farben
 
   Haupt_Farbe: '#D32D20', // Bild-Rot
@@ -32,24 +33,33 @@ export var state = {
 
   // weitere Optionen
 
+  Tooltips_On: false,
+  filled_chart: 'transparent',
+  weiche_kurve: 1,
+
+
   Label_Beschriftung: 'Schlusskurs in Euro',
   Punkt_Radius: 5,
+  Punkt_Highlight_Radius: 3,
   farbe_highlight_punkte: '#D32D20',
-  position_highlight_kasten: 'bottom'
+  position_highlight_kasten: 'bottom',
+
+  offset_textbox: 14,
+  align_textbox_text: 'left'
 
   // The current state of template. You can make some or all of the properties
   // of the state object available to the user as settings in settings.js.
 };
 
 export function update() {
-  
+
   function comma_to_point(num){
     if (num.indexOf(',') > -1){
       var raw = num;
       var comma = raw.split(',');
       var pointer = comma.join('.');
       return pointer
-      //console.log(pointer)
+      
     }
     return num
   }
@@ -65,8 +75,39 @@ export function update() {
   }
 
 
+  function thousand_space(num){
+    if (num >= 1000){
+      var thousand = num/1000
+      thousand = thousand.toFixed(3)
+      thousand = thousand.toString()
+      var re = /\./;
+      var thousand_space = thousand.replace(re, " ")
+      return thousand_space
+
+    }
+    
+     return num
+  }
+
+
+  function highlight_title_formatter(hightlight_title) {
+    var string_title = hightlight_title.toString();
+    string_title = "<h2>" + string_title + "</h2>"
+    console.log(string_title);
+    return string_title
+
+  }
+
+// Hintegrundbild
+
   var ctx = document.getElementById('chart').getContext('2d');
 
+  // var img = new Image();
+  // img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png';
+  // img.onload = function() {
+  //   var ctx = document.getElementById('chart').getContext('2d');
+  //   var fillPattern = ctx.createPattern(img, 'repeat');
+  // }
 
   var myLineChart = new Chart(ctx, {
       type: 'line',
@@ -75,16 +116,38 @@ export function update() {
           datasets: [{
               highlights: data.kurs.map(function(d) { return d.highlights; }),
               label: state.Label_Beschriftung,
-              backgroundColor: 'transparent',
+              backgroundColor: state.filled_chart,
               borderColor: state.Haupt_Farbe,
               data: data.kurs.map(function(d) { return comma_to_point(d.schlusskurs) }),
               radius: state.Punkt_Radius,
           }]
       },  
       options: {
-        tooltips: {
-          enabled: false
+          elements: {
+          line: {
+            tension: state.weiche_kurve,
+            cubicInterpolationMode: 'monotone'
+          }
         },
+        tooltips: {
+          enabled: state.Tooltips_On,
+          hover: {
+            mode: 'dataset',
+            animationDuration: 1000
+          }
+        },
+        scales: {
+          yAxes: [{
+            stacked: false,
+            ticks: {
+              callback: function(value){
+                return thousand_space(value);
+              }
+            }
+          }]
+        },
+        responsive: true,
+        maintainAspectRatio: false,
         legend: {
           display: true,
           position: 'top',
@@ -100,12 +163,12 @@ export function update() {
             borderColor: 'rgb(255, 99, 132)',
             borderRadius: 8,
             borderWidth: 1,
-            opacity: '0.7',
-            offset: '10',
+            opacity: '0.9',
+            offset: state.offset_textbox,
             align: state.position_highlight_kasten,
-            anchor: 'start',
+            anchor: 'center',
             color: 'black',
-            textAlign: 'center',
+            textAlign: state.align_textbox_text,
             rotation: '0',
             font: {
               weight: 'bold',
@@ -113,22 +176,28 @@ export function update() {
               lineHeight: '1.2'
             },
             display: function(context) {
-              return context.dataset.highlights; // display labels with an odd index
+              return context.dataset.highlights; 
               //return context.data;
               },
             formatter: function(value, context) {
+              var i = 0
               if (context.dataset.highlights[context.dataIndex] != ""){
+                //console.log(context)
                 var legend_text = context.dataset.highlights[context.dataIndex];
                 var textarray = legend_text.split(' ');
-                if (textarray.length >= 7){
+                //console.log(textarray)
+                if (textarray.length >= 5){
                   for (i = 5; i < textarray.length; i = i + 5){
+                    if (textarray[i+1] == " "){
+                      textarray.splice(i, i+1,"")
+                    }
                     textarray.splice(i, 0, '\n');
-                    //console.log(textarray)
+                    //console.log(i)
                   }
                   legend_text = textarray.join(' ');
 
                 }
-                var legend_datum = context.chart.dataset
+                      
                 
                 return context.chart.data.labels[context.dataIndex] + ': ' + '\n' + legend_text;
               }}
@@ -139,29 +208,49 @@ export function update() {
   }});
 
   Chart.plugins.register({
-  afterDraw: function (chart) {
-    var ctx = chart.ctx;
-    chart.data.datasets.forEach(function (dataset, i) {
-      var meta = chart.getDatasetMeta(i)
-      dataset.highlights.forEach(function (highlight, i){
-        if (!meta.hidden) {
-          if (highlight != "") {
-              var label_position = meta.data[i].tooltipPosition();
-              ctx.beginPath();
-              ctx.arc(label_position.x,label_position.y, 6, 0, 2*Math.PI, false);
-              ctx.fillStyle = state.farbe_highlight_punkte;
-              ctx.strokeStyle = state.farbe_highlight_punkte;
-              ctx.lineWidth = '7';
-              ctx.stroke();
-              ctx.fill();
+    afterDraw: function (chart) {
+      var ctx = chart.ctx;
+      chart.data.datasets.forEach(function (dataset, i) {
+        var meta = chart.getDatasetMeta(i)
+        dataset.highlights.forEach(function (highlight, i){
+          if (!meta.hidden) {
+            if (highlight != "") {
+                var label_position = meta.data[i].tooltipPosition();
+                ctx.beginPath();
+                ctx.arc(label_position.x,label_position.y, 6, 0, 2*Math.PI, false);
+                ctx.moveTo(label_position.x, label_position.y);
+                
+                if (state.position_highlight_kasten == 'bottom'){
+                  ctx.lineTo(label_position.x, label_position.y + state.offset_textbox);
+                }
+                if (state.position_highlight_kasten == 'top'){
+                  ctx.lineTo(label_position.x, label_position.y - state.offset_textbox);
+                }
+                if (state.position_highlight_kasten == 'left'){
+                  ctx.lineTo(label_position.x - state.offset_textbox, label_position.y)
+                }
+                if (state.position_highlight_kasten == 'right'){
+                  ctx.lineTo(label_position.x + state.offset_textbox, label_position.y)
+                }
+                
+                //ctx.rect(label_position.x, label_position.y, 20, 20);
+                ctx.fillStyle = state.farbe_highlight_punkte;
+                ctx.strokeStyle = state.farbe_highlight_punkte;
+                ctx.lineWidth = state.Punkt_Highlight_Radius;
+                ctx.stroke();
+                ctx.fill();
+            }
+          
           }
-        
-        }
-        
+          
+        })
       })
-    })
-  }
-}) 
+    }
+  })
+  
+
+
+
  
   // The update function is called whenever the user changes a data table or settings
   // in the visualisation editor, or when changing slides in the story editor.

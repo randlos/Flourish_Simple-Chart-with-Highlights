@@ -3,6 +3,7 @@ name: BILD Simple Chart Template
 description: A Flourish/BILD Simple Chart Template
 author: Mario Stauber
 sdk_version: 3
+setHeight: 700
 build:
   src:
     script: npm run build
@@ -29,9 +30,24 @@ settings:
       - Blue
       - darkBlue
     choices_other: true
+  - property: filled_chart
+    name: Fläche unterhalb des Line-Charts füllen
+    type: string
+    choices:
+      - Haupt_Farbe
+      - Green
+      - darkGreen
+      - Blue
+      - darkBluer
+  - property: Tooltips_On
+    name: Tooltips/Pop-Ups der Datenpunkte aktivieren
+    type: boolean
   - property: Punkt_Radius
     name: Radius Daten-Punkte
     type: number
+  - property:  weiche_kurve
+    name: Weiche Kurve
+    type: boolean
   - Optionen Highlights / Ereignisse
   - property: position_highlight_kasten
     name: Position Highlight Kasten
@@ -42,6 +58,19 @@ settings:
       - bottom
       - left
       - right
+  - property: align_textbox_text
+    name: Text Align Text im Highlight-Kasten
+    type: string
+    choices:
+      - left
+      - right
+      - center
+  - property: Punkt_Highlight_Radius
+    name: Radius Highlight-Punkte
+    type: number
+  - property: offset_textbox
+    name: Abstand zwischen Punkt und Textkasten
+    type: number
   - property: farbe_highlight_punkte
     name: Farbe Highlight Daten-Punkte
     type: color
