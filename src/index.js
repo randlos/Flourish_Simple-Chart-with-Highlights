@@ -35,16 +35,16 @@ export var state = {
 
   Tooltips_On: false,
   filled_chart: 'transparent',
-  weiche_kurve: 1,
+  weiche_kurve: 0,
 
 
   Label_Beschriftung: 'Schlusskurs in Euro',
-  Punkt_Radius: 5,
-  Punkt_Highlight_Radius: 3,
+  Punkt_Radius: 0,
+  Punkt_Highlight_Radius: 1,
   farbe_highlight_punkte: '#D32D20',
   position_highlight_kasten: 'bottom',
 
-  offset_textbox: 14,
+  offset_textbox: 25,
   align_textbox_text: 'left'
 
   // The current state of template. You can make some or all of the properties
@@ -160,8 +160,8 @@ export function update() {
         plugins: {
           datalabels: {
             backgroundColor: 'white',
-            borderColor: 'rgb(255, 99, 132)',
-            borderRadius: 8,
+            borderColor: state.Haupt_Farbe,
+            borderRadius: 0,
             borderWidth: 1,
             opacity: '0.9',
             offset: state.offset_textbox,
@@ -216,10 +216,17 @@ export function update() {
           if (!meta.hidden) {
             if (highlight != "") {
                 var label_position = meta.data[i].tooltipPosition();
+                
                 ctx.beginPath();
                 ctx.arc(label_position.x,label_position.y, 6, 0, 2*Math.PI, false);
+                ctx.strokeStyle = "#ffffff";//state.farbe_highlight_punkte;
+                ctx.fillStyle = state.farbe_highlight_punkte;
+                ctx.lineWidth = 6;
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
                 ctx.moveTo(label_position.x, label_position.y);
-                
                 if (state.position_highlight_kasten == 'bottom'){
                   ctx.lineTo(label_position.x, label_position.y + state.offset_textbox);
                 }
@@ -233,12 +240,11 @@ export function update() {
                   ctx.lineTo(label_position.x + state.offset_textbox, label_position.y)
                 }
                 
-                //ctx.rect(label_position.x, label_position.y, 20, 20);
-                ctx.fillStyle = state.farbe_highlight_punkte;
                 ctx.strokeStyle = state.farbe_highlight_punkte;
-                ctx.lineWidth = state.Punkt_Highlight_Radius;
+                ctx.fillStyle = state.farbe_highlight_punkte;
+                ctx.lineWidth = 1;
                 ctx.stroke();
-                ctx.fill();
+                //ctx.fill();
             }
           
           }
