@@ -182,14 +182,17 @@ export function update() {
             formatter: function(value, context) {
               var i = 0
               if (context.dataset.highlights[context.dataIndex] != ""){
-                //console.log(context)
+                console.log(context.dataset.highlights[context.dataIndex]);
                 var legend_text = context.dataset.highlights[context.dataIndex];
                 var textarray = legend_text.split(' ');
-                //console.log(textarray)
+                console.log(textarray)
                 if (textarray.length >= 5){
                   for (i = 5; i < textarray.length; i = i + 5){
-                    if (textarray[i+1] == " "){
-                      textarray.splice(i, i+1,"")
+                    console.log(textarray[i])
+                    if (textarray[i] == " "){
+                      print("loop!")
+                      textarray.shift();
+                      //textarray.splice(i, i,"")
                     }
                     textarray.splice(i, 0, '\n');
                     //console.log(i)
