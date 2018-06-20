@@ -31,10 +31,11 @@ settings:
       - darkBlue
     choices_other: true
   - property: filled_chart
-    name: Fläche unterhalb des Line-Charts füllen
+    name: Fläche unterhalb des Line-ChaSrts füllen
     type: string
     choices:
       - transparent
+      - rgba(211, 45, 32, 0.8)
       - Haupt_Farbe
       - Green
       - darkGreen

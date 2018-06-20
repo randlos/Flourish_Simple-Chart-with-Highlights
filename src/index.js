@@ -10,12 +10,15 @@ export var state = {
 
   // Haupt-Farben
 
-  Haupt_Farbe: '#D32D20', // Bild-Rot
+  Haupt_Farbe: "rgba(211, 45, 32, 1)",//'#D32D20', // Bild-Rot
   Green: '#6CBA6C',
   darkGreen: '#45891B',
   Blue: '#42A8CC',
   darkBlue: '#036E93',
 
+  // BG-Farben
+  Background_Transparent: "transparent",
+  Background_Color_Haupt: "rgba(211, 45, 32, 0.5)",
 
   // Partei-Farben
 
@@ -93,7 +96,7 @@ export function update() {
   function highlight_title_formatter(hightlight_title) {
     var string_title = hightlight_title.toString();
     string_title = "<h2>" + string_title + "</h2>"
-    console.log(string_title);
+    //console.log(string_title);
     return string_title
 
   }
@@ -117,6 +120,7 @@ export function update() {
               highlights: data.kurs.map(function(d) { return d.highlights; }),
               label: state.Label_Beschriftung,
               backgroundColor: state.filled_chart,
+              opacity: 0.8,
               borderColor: state.Haupt_Farbe,
               data: data.kurs.map(function(d) { return comma_to_point(d.schlusskurs) }),
               radius: state.Punkt_Radius,
@@ -182,15 +186,15 @@ export function update() {
             formatter: function(value, context) {
               var i = 0
               if (context.dataset.highlights[context.dataIndex] != ""){
-                console.log(context.dataset.highlights[context.dataIndex]);
+                //console.log(context.dataset.highlights[context.dataIndex]);
                 var legend_text = context.dataset.highlights[context.dataIndex];
                 var textarray = legend_text.split(' ');
-                console.log(textarray)
+                //console.log(textarray)
                 if (textarray.length >= 5){
                   for (i = 5; i < textarray.length; i = i + 5){
-                    console.log(textarray[i])
+                    //console.log(textarray[i])
                     if (textarray[i] == " "){
-                      print("loop!")
+                      //print("loop!")
                       textarray.shift();
                       //textarray.splice(i, i,"")
                     }
