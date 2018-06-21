@@ -3,7 +3,7 @@ name: BILD Simple Chart Template
 description: A Flourish/BILD Simple Chart Template
 author: Mario Stauber
 sdk_version: 3
-setHeight: 700
+setHeight: 705
 build:
   src:
     script: npm run build
@@ -21,26 +21,40 @@ settings:
     type: string
   - property: Haupt_Farbe 
     name: Haupt-Farbe
-    description: Hauptfarbe in HEX oder RGB
+    description: Die Farbe kann frei gewählt werden (in rgba(0,0,0,0) oder Hex-Code)
     type: string
     choices:
-      - Haupt_Farbe
-      - Green
-      - darkGreen
-      - Blue
-      - darkBlue
+      -
+        - Bild-Rot
+        - rgba(211, 45, 32, 1)
+      -
+        - Grün dunkel
+        - darkGreen
+      - 
+        - Blau
+        - Blue
+      - 
+        - Blau dunkel
+        - darkBlue
     choices_other: true
   - property: filled_chart
-    name: Fläche unterhalb des Line-ChaSrts füllen
+    name: Fläche unterhalb des Line-Charts füllen
+    description: Die Farbe kann frei gewählt werden (in rgba(0,0,0,0) oder Hex-Code)
     type: string
     choices:
-      - transparent
-      - rgba(211, 45, 32, 0.8)
-      - Haupt_Farbe
-      - Green
-      - darkGreen
-      - Blue
-      - darkBluer
+      -
+        - Transparent
+        - transparent
+      - 
+        - BILD-Rot - transparent
+        - rgba(211, 45, 32, 0.8)
+      -
+        - Bild-Rot - vollfarbe
+        - Haupt_Farbe
+      -
+        - Blau
+        - "#42A8CC"
+    choices_other: true
   - property: Tooltips_On
     name: Tooltips/Pop-Ups der Datenpunkte aktivieren
     type: boolean

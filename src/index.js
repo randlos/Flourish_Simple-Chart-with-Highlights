@@ -18,7 +18,7 @@ export var state = {
 
   // BG-Farben
   Background_Transparent: "transparent",
-  Background_Color_Haupt: "rgba(211, 45, 32, 0.5)",
+  Background_Color_Haupt_opacity: "rgba(211, 45, 32, 0.5)",
 
   // Partei-Farben
 
