@@ -7,7 +7,6 @@ export var data = {};
 
 export var state = {
   
-
   // Haupt-Farben
 
   Haupt_Farbe: "rgba(211, 45, 32, 1)",//'#D32D20', // Bild-Rot
@@ -174,17 +173,49 @@ export function update() {
             color: 'black',
             textAlign: state.align_textbox_text,
             rotation: '0',
-            font: {
-              weight: 'bold',
-              size: '13',
-              lineHeight: '1.2'
+            font: function(context) {
+              var labels = context.chart.config.data.labels
+
+              labels.forEach(function(el){
+                console.log(el);
+              });
+
+              if (context.chart.config.data.labels) {
+                //weight: 'bold',
+                //size: '16',
+                //lineHeight: '1.2'
+                var index = context.dataIndex;
+                //var value = context.dataset.highlights[index]
+                //console.log("test");
+                
+
+                return { weight: 'bold', size: '20' };
+              }
+                //console.log(context.chart.config.data.labels);
+              
+              
+              //console.log(context.dataset.highlights);
+              //weight: 'bold',
+              //size: '16',
+              //lineHeight: '1.2'
             },
             display: function(context) {
               return context.dataset.highlights; 
               //return context.data;
               },
             formatter: function(value, context) {
-              var i = 0
+              var ctx = context.chart.ctx
+              var data = context.chart.options.plugins.datalabels.backgroundColor
+              
+              ctx.beginPath();
+              ctx.arc(100,100, 6, 0, 2*Math.PI, false)
+              ctx.strokeStyle = "#ffffff";//state.farbe_highlight_punkte;
+              ctx.fillStyle = state.farbe_highlight_punkte;
+              ctx.lineWidth = 6;
+              ctx.stroke();
+              ctx.fill();
+              //context.chart.$plugins.descriptors[3].options.backgroundColor = "#000"
+              var i = 0;
               if (context.dataset.highlights[context.dataIndex] != ""){
                 //console.log(context.dataset.highlights[context.dataIndex]);
                 var legend_text = context.dataset.highlights[context.dataIndex];
@@ -204,9 +235,12 @@ export function update() {
                   legend_text = textarray.join(' ');
 
                 }
-                      
-                
-                return context.chart.data.labels[context.dataIndex] + ': ' + '\n' + legend_text;
+                //console.log(context.chart.ctx.font)
+                //context.chart.ctx.font = '16px "Helvetica Neue", Helvetica, Arial, sans-serif';
+                var datelabel = context.chart.data.labels[context.dataIndex]
+                         
+                return datelabel + ': ' + '\n' + legend_text;
+        
               }}
           
         }
@@ -215,15 +249,33 @@ export function update() {
   }});
 
   Chart.plugins.register({
+  
+    
     afterDraw: function (chart) {
       var ctx = chart.ctx;
+
+      chart.data.labels.forEach(function(labels, i){
+        //console.log(labels)
+        if (labels != "") {
+          //ctx.font = 'bold 22px "Helvetica Neue", Helvetica, Arial, sans-serif'
+          //console.log(ctx.font)
+            // ctx.lineTo(50,50);
+            // ctx.font="30px Arial";
+            // ctx.fillRect(10,10,100,100);
+            // ctx.fillText("Hello World", 10, 50);
+          //ctx.font= "40px Arial";
+            //console.log(typeof(labels))
+          }
+        
+      }),
       chart.data.datasets.forEach(function (dataset, i) {
         var meta = chart.getDatasetMeta(i)
         dataset.highlights.forEach(function (highlight, i){
+
           if (!meta.hidden) {
             if (highlight != "") {
                 var label_position = meta.data[i].tooltipPosition();
-                
+
                 ctx.beginPath();
                 ctx.arc(label_position.x,label_position.y, 6, 0, 2*Math.PI, false);
                 ctx.strokeStyle = "#ffffff";//state.farbe_highlight_punkte;
