@@ -1,6 +1,6 @@
 id: Oneliner
-name: BILD Simple Chart Template
-description: A Flourish/BILD Simple Chart Template
+name: Der schnelle DAX
+description: A Flourish Simple Chart Template – Der schnelle DAX
 author: Mario Stauber
 sdk_version: 3
 setHeight: 705
@@ -19,6 +19,10 @@ settings:
     name: Legenden-Name
     description: Beschriftung der Legende
     type: string
+  - property: Legende_Font_Groesse
+    name: Schriftgrösße Legende
+    description: Schriftgröße für Legende ändern
+    type: number
   - property: Haupt_Farbe 
     name: Haupt-Farbe
     description: Die Farbe kann frei gewählt werden (in rgba(0,0,0,0) oder Hex-Code)

@@ -19,6 +19,9 @@ export var state = {
   Background_Transparent: "transparent",
   Background_Color_Haupt_opacity: "rgba(211, 45, 32, 0.5)",
 
+  // Legende
+  Legende_Font_Groesse: 16,
+
   // Partei-Farben
 
   cdu_csu_farbe: '#143d4b',
@@ -110,7 +113,7 @@ export function update() {
   //   var ctx = document.getElementById('chart').getContext('2d');
   //   var fillPattern = ctx.createPattern(img, 'repeat');
   // }
-
+  Chart.defaults.global.defaultFontFamily = '"Gotham XNarrow","Avenir Next Condensed",sans-serif-condensed,"Arial Narrow","Arial Nova",sans-serif';
   var myLineChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -127,10 +130,10 @@ export function update() {
       },  
       options: {
           elements: {
-          line: {
-            tension: state.weiche_kurve,
-            cubicInterpolationMode: 'monotone'
-          }
+            line: {
+              tension: state.weiche_kurve,
+              cubicInterpolationMode: 'monotone'
+          },
         },
         tooltips: {
           enabled: state.Tooltips_On,
@@ -157,6 +160,7 @@ export function update() {
           labels: {
             usePointStyle: true,
             fontStyle: 'bold',
+            fontSize: state.Legende_Font_Groesse,
             fontColor: state.Haupt_Farbe,
           },
         },
@@ -173,32 +177,11 @@ export function update() {
             color: 'black',
             textAlign: state.align_textbox_text,
             rotation: '0',
-            font: function(context) {
-              var labels = context.chart.config.data.labels
-
-              labels.forEach(function(el){
-                console.log(el);
-              });
-
-              if (context.chart.config.data.labels) {
-                //weight: 'bold',
-                //size: '16',
-                //lineHeight: '1.2'
-                var index = context.dataIndex;
-                //var value = context.dataset.highlights[index]
-                //console.log("test");
-                
-
-                return { weight: 'bold', size: '20' };
-              }
-                //console.log(context.chart.config.data.labels);
-              
-              
-              //console.log(context.dataset.highlights);
-              //weight: 'bold',
-              //size: '16',
-              //lineHeight: '1.2'
-            },
+            font: {
+              weight: 'bold',
+              size: '16',
+              lineHeight: '1.2'
+            },            
             display: function(context) {
               return context.dataset.highlights; 
               //return context.data;
@@ -238,7 +221,8 @@ export function update() {
                 //console.log(context.chart.ctx.font)
                 //context.chart.ctx.font = '16px "Helvetica Neue", Helvetica, Arial, sans-serif';
                 var datelabel = context.chart.data.labels[context.dataIndex]
-                         
+                var labels = context.chart.config.data.labels
+                //console.log(labels)   
                 return datelabel + ': ' + '\n' + legend_text;
         
               }}
