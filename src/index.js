@@ -159,7 +159,7 @@ export function update() {
           position: 'top',
           labels: {
             usePointStyle: true,
-            fontStyle: 'bold',
+            fontStyle: '700',
             fontSize: state.Legende_Font_Groesse,
             fontColor: state.Haupt_Farbe,
           },
@@ -178,7 +178,7 @@ export function update() {
             textAlign: state.align_textbox_text,
             rotation: '0',
             font: {
-              weight: 'bold',
+              weight: '700',
               size: '16',
               lineHeight: '1.2'
             },            
