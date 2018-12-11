@@ -112,7 +112,7 @@ export function update() {
   //   var ctx = document.getElementById('chart').getContext('2d');
   //   var fillPattern = ctx.createPattern(img, 'repeat');
   // }
-  Chart.defaults.global.defaultFontFamily = '"Gotham XNarrow","Avenir Next Condensed",sans-serif-condensed,"Arial Narrow","Arial Nova",sans-serif';
+  Chart.defaults.global.defaultFontFamily = 'sans-serif';
   var myLineChart = new Chart(ctx, {
       type: 'line',
       data: {
