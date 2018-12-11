@@ -71,12 +71,11 @@ export function update() {
 
 
   function date_converter_us_eu(datum){
-    var date_raw = datum;
-    var us_date = date_raw.split('/');
-    var euro_date = us_date[1] + "." + us_date[0] + "." + us_date[2];
-    return euro_date
-
-
+      var date_raw = datum;
+      var us_date = date_raw.split('/');
+      var day = parseInt(us_date[1], 10);
+      var month = parseInt(us_date[0], 10);
+    return day + "." + month + "." + us_date[2];
   }
 
 
