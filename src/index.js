@@ -9,7 +9,7 @@ export var state = {
   
   // Haupt-Farben
 
-  Haupt_Farbe: "rgba(211, 45, 32, 1)",//'#D32D20', // Bild-Rot
+  Haupt_Farbe: "rgba(211, 45, 32, 1)",//'#D32D20'
   Green: '#6CBA6C',
   darkGreen: '#45891B',
   Blue: '#42A8CC',
@@ -102,16 +102,9 @@ export function update() {
 
   }
 
-// Hintegrundbild
-
   var ctx = document.getElementById('chart').getContext('2d');
 
-  // var img = new Image();
-  // img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png';
-  // img.onload = function() {
-  //   var ctx = document.getElementById('chart').getContext('2d');
-  //   var fillPattern = ctx.createPattern(img, 'repeat');
-  // }
+
   Chart.defaults.global.defaultFontFamily = 'sans-serif';
   var myLineChart = new Chart(ctx, {
       type: 'line',
